@@ -1,0 +1,117 @@
+# Fraud Detection Configuration File
+
+# Data Configuration
+data:
+  raw_data_path: "data/raw/creditcard.csv"
+  processed_data_path: "data/processed/"
+  test_size: 0.2
+  validation_size: 0.2
+  random_state: 42
+
+# Feature Engineering
+features:
+  target_column: "Class"
+  time_column: "Time"
+  amount_column: "Amount"
+  scale_features: true
+  feature_selection: false
+  n_features_to_select: null
+
+# Data Balancing
+balancing:
+  method: "smote"  # Options: 'smote', 'undersampling', 'oversampling', 'none'
+  smote_k_neighbors: 5
+  undersampling_ratio: 0.5
+  random_state: 42
+
+# Model Configuration
+models:
+  logistic_regression:
+    solver: "liblinear"
+    max_iter: 1000
+    random_state: 42
+    class_weight: "balanced"
+  
+  random_forest:
+    n_estimators: 100
+    max_depth: null
+    min_samples_split: 2
+    min_samples_leaf: 1
+    random_state: 42
+    class_weight: "balanced"
+    n_jobs: -1
+  
+  xgboost:
+    n_estimators: 100
+    max_depth: 6
+    learning_rate: 0.1
+    subsample: 0.8
+    colsample_bytree: 0.8
+    random_state: 42
+    use_label_encoder: false
+    eval_metric: "logloss"
+  
+  lightgbm:
+    n_estimators: 100
+    max_depth: 6
+    learning_rate: 0.1
+    subsample: 0.8
+    colsample_bytree: 0.8
+    random_state: 42
+    verbose: -1
+
+# Hyperparameter Tuning
+hyperparameter_tuning:
+  enabled: false
+  method: "grid_search"  # Options: 'grid_search', 'random_search', 'bayesian'
+  cv_folds: 5
+  scoring: "f1"
+  n_jobs: -1
+
+# Evaluation Metrics
+evaluation:
+  metrics:
+    - "accuracy"
+    - "precision"
+    - "recall"
+    - "f1"
+    - "roc_auc"
+  threshold_optimization: true
+  plot_confusion_matrix: true
+  plot_roc_curve: true
+  plot_precision_recall_curve: true
+
+# SHAP Configuration
+interpretability:
+  enable_shap: true
+  shap_explainer: "tree"  # Options: 'tree', 'linear', 'kernel'
+  max_display_features: 20
+  sample_size_for_shap: 1000  # Sample size for SHAP analysis (for performance)
+
+# Logging Configuration
+logging:
+  level: "INFO"  # Options: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  log_file: "logs/fraud_detection.log"
+  log_format: "{time:YYYY-MM-DD HH:mm:ss} | {level} | {message}"
+
+# Output Configuration
+output:
+  models_path: "models/"
+  results_path: "results/"
+  plots_path: "results/plots/"
+  save_models: true
+  save_predictions: true
+  save_plots: true
+
+# Performance Configuration
+performance:
+  n_jobs: -1  # Number of parallel jobs (-1 for all cores)
+  memory_limit: null  # Memory limit in GB (null for no limit)
+  early_stopping: true
+  early_stopping_rounds: 50
+
+# Reproducibility
+reproducibility:
+  set_random_seed: true
+  random_seed: 42
+  deterministic: true
